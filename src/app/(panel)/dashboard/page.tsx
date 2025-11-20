@@ -1,8 +1,13 @@
 export default function Dashboard() {
   return (
-    <main>
+    <div>
       <h1>Dashboard</h1>
       <p>Welcome to your dashboard. Here you can manage your dental practice efficiently.</p>
-    </main>
+
+      <div className="w-full h-[600px] bg-gray-200 mb-10"></div>
+      <div className="w-full h-[600px] bg-gray-500 mb-10"></div>
+      <div className="w-full h-[600px] bg-gray-200 mb-10"></div>
+
+    </div>
   );
 }
