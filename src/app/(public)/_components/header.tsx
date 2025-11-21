@@ -48,8 +48,8 @@ async function handleLogin() {
 
                 session ? (
                     <Link href="/dashboard"
-                        className="flex items-center justify-center gap-2">
-                        Painel da Clínica
+                        className="flex items-center justify-center gap-2 bg-zinc-900 text-white py-1 rounded-md px-4">
+                        Acessar Clínica
                     </Link>
                 ) : (
                     <Button onClick={handleLogin}>
