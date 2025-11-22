@@ -8,8 +8,6 @@ export default async function Dashboard() {
     redirect('/');
   }
 
-  console.log(session?.user?.status);
-
   return (
     <div>
       <h1>Dashboard</h1>
