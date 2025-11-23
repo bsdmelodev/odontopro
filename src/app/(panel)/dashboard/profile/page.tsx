@@ -11,16 +11,15 @@ export default async function Profile() {
   }
 
   const user = await getUserData({ userId: session.user.id })
+  // console.log("getUser: ", user)
 
-
-  console.log("getUser: ", user)
   if (!user) {
     redirect('/');
   }
 
   return (
-    <main>
-      <ProfileContent/>
-    </main>
+
+    <ProfileContent user={user}/>
+
   )
 }
