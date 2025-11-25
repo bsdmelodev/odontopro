@@ -36,19 +36,20 @@ import { ArrowRight } from 'lucide-react'
 import imgTest from '../../../../../../public/foto1.png'
 import { cn } from '@/lib/utils'
 import { Prisma } from '@prisma/client'
+import { updateProfile } from '../_actions/update-profile'
 
 type UserWithSubscription = Prisma.UserGetPayload<{
-  include: {
-    subscription: true
-  }
+    include: {
+        subscription: true
+    }
 }>
 
 interface ProfileContentProps {
-  user: UserWithSubscription;
+    user: UserWithSubscription;
 }
 
 
-export function ProfileContent({user}: ProfileContentProps) {
+export function ProfileContent({ user }: ProfileContentProps) {
 
     const [selectedHours, setSelectedHours] = useState<string[]>(user.times ?? [])
     const [dialogIsOpen, setDialogIsOpen] = useState(false);
@@ -95,11 +96,16 @@ export function ProfileContent({user}: ProfileContentProps) {
     );
 
     async function onSubmit(values: ProfileFormData) {
-        const profileData = {
-            ...values,
-            times: selectedHours
-        }
-        console.log("Valor: ", profileData)
+
+        const response = await updateProfile({
+            name: values.name,
+            address: values.address,
+            status: values.status === 'active' ? true : false,
+            timeZone: values.timeZone,
+            times: selectedHours || [],
+            phone: values.phone
+        })
+        console.log('resposta: ',response)
     }
 
     return (
