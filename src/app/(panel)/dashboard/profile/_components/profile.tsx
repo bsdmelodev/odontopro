@@ -35,8 +35,11 @@ import { ArrowRight } from 'lucide-react'
 
 import imgTest from '../../../../../../public/foto1.png'
 import { cn } from '@/lib/utils'
-import { Prisma } from '@prisma/client'
+import { Prisma } from '@/generated/prisma/client'
 import { updateProfile } from '../_actions/update-profile'
+import { toast } from 'sonner'
+import { formatPhone, /*extractPhoneNumber*/ } from '@/utils/formatPhone'
+
 
 type UserWithSubscription = Prisma.UserGetPayload<{
     include: {
@@ -97,15 +100,25 @@ export function ProfileContent({ user }: ProfileContentProps) {
 
     async function onSubmit(values: ProfileFormData) {
 
+       // const extractValue = extractPhoneNumber(values.phone || "")
+        //console.log(extractValue)
+
         const response = await updateProfile({
             name: values.name,
             address: values.address,
             status: values.status === 'active' ? true : false,
+            phone: values.phone,
             timeZone: values.timeZone,
-            times: selectedHours || [],
-            phone: values.phone
+            times: selectedHours || []
         })
-        console.log('resposta: ',response)
+        if (response.error) {
+            //https://sonner.emilkowal.ski/
+            toast.error(response.error, { closeButton: true })
+            return;
+        }
+
+        //https://sonner.emilkowal.ski/
+        toast.success(response.data, { closeButton: true/*, position: 'top-center'*/ })
     }
 
     return (
@@ -178,6 +191,10 @@ export function ProfileContent({ user }: ProfileContentProps) {
                                                 <Input
                                                     {...field}
                                                     placeholder='Digite o telefone...'
+                                                    onChange={(e) => {
+                                                        const formattedValue = formatPhone(e.target.value)
+                                                        field.onChange(formattedValue)
+                                                    }}
                                                 />
                                             </FormControl>
                                             <FormMessage />
